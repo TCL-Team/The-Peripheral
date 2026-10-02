@@ -1,41 +1,35 @@
 {
-	"schemaVersion": 1,
-	"id": "the-peripheral",
-	"version": "1.0.0",
-	"name": "The Peripheral",
-	"description": "A psychological horror mod that stalks your every move.",
-	"authors": [
-		"TCL-Team"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/TCL-Team/The-Peripheral"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/the-peripheral/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.theperipheral.ThePeripheral"
-		],
-		"client": [
-			"com.theperipheral.client.ThePeripheralClient"
-		],
-		"fabric-datagen": [
-			"com.theperipheral.client.ThePeripheralDataGenerator"
-		]
-	},
-	"mixins": [
-		"the-peripheral.mixins.json",
-		{
-			"config": "the-peripheral.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.19.5",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "the-peripheral",
+  "version": "1.0.0",
+  "name": "The Peripheral",
+  "description": "Psychological Horror Mod for Minecraft Java 1.21.11",
+  "authors": [
+    "TCL-Team"
+  ],
+  "contact": {},
+  "license": "CC0-1.0",
+  "icon": "assets/the-peripheral/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.theperipheral.ThePeripheral"
+    ],
+    "client": [
+      "com.theperipheral.client.ThePeripheralClient"
+    ]
+  },
+  "mixins": [
+    "the-peripheral.mixins.json",
+    {
+      "config": "the-peripheral.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
 }
