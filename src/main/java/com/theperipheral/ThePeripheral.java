@@ -13,30 +13,42 @@ import java.util.Random;
 public class ThePeripheral implements ModInitializer {
     public static final String MOD_ID = "the-peripheral";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    private final Random random = new Random();
+    private static final Random RANDOM = new Random();
     private int tickCounter = 0;
 
     @Override
     public void onInitialize() {
-        LOGGER.info("The Peripheral Mod Loading... Tayyar raho darr ke liye!");
+        LOGGER.info("The Peripheral: Production Horror System Activated.");
 
-        // Server Tick Event: Har 5-10 second me piche footsteps bajaye ga
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             tickCounter++;
-            if (tickCounter >= 100 + random.nextInt(200)) { // 5 to 15 seconds
+            
+            // Har ~8 se 15 second me trigger hoga
+            if (tickCounter >= 160 + RANDOM.nextInt(140)) {
                 tickCounter = 0;
+
                 server.getPlayerManager().getPlayerList().forEach(player -> {
-                    // Agar player dark area ya cave me hai
-                    if (player.getWorld().getLightLevel(player.getBlockPos()) < 7) {
-                        // Player ke 2 blocks piche sound bajao
-                        BlockPos behindPos = player.getBlockPos().offset(player.getHorizontalFacing().getOpposite(), 2);
+                    if (player.isSpectator() || player.isCreative()) return;
+
+                    BlockPos pos = player.getBlockPos();
+                    int lightLevel = player.getWorld().getLightLevel(pos);
+
+                    // Agar light kam hai (Underground / Night)
+                    if (lightLevel < 6) {
+                        // Player ke 2 blocks piche position calculate karo
+                        BlockPos behindPos = pos.offset(player.getHorizontalFacing().getOpposite(), 2);
+                        
+                        // Random Creepy Sound Selector
+                        float pitch = 0.3f + (RANDOM.nextFloat() * 0.3f); // Pitch low karke creepy aawaz
+                        var soundEvent = RANDOM.nextBoolean() ? SoundEvents.BLOCK_DEEPSLATE_STEP : SoundEvents.ENTITY_GHAST_SCREAM;
+
                         player.getWorld().playSound(
                             null, 
                             behindPos, 
-                            SoundEvents.BLOCK_DEEPSLATE_STEP, 
+                            soundEvent, 
                             SoundCategory.PLAYERS, 
-                            1.0f, 
-                            0.5f // Low pitch creepiness ke liye
+                            0.8f, 
+                            pitch
                         );
                     }
                 });
