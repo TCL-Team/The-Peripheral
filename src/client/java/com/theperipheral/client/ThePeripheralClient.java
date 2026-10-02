@@ -16,14 +16,13 @@ public class ThePeripheralClient implements ClientModInitializer {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.player == null || client.world == null) return;
 
-            // Player agar spectating nahi kar raha
             if (client.player.isCreative() || client.player.isSpectator()) return;
 
             int light = client.world.getLightLevel(client.player.getBlockPos());
 
-            // Jab andhera ho (Light < 4), toh 0.5% chance hai short glitch blackout hone ka
+            // Dark area me Random Blackout flicker
             if (light < 4 && RANDOM.nextInt(200) == 1) {
-                blackoutTicks = 4; // 4 ticks black screen
+                blackoutTicks = 3;
             }
 
             if (blackoutTicks > 0) {
@@ -31,7 +30,7 @@ public class ThePeripheralClient implements ClientModInitializer {
                 int width = client.getWindow().getScaledWidth();
                 int height = client.getWindow().getScaledHeight();
 
-                // 1.21.11 Compatible ARGB Pitch Black Color Fill (0xFF000000 = Fully Opaque Black)
+                // 1.21.11 Compatible ARGB Pitch Black Screen Fill
                 drawContext.fill(0, 0, width, height, 0xFF000000);
             }
         });
