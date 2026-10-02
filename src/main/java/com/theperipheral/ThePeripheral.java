@@ -18,12 +18,12 @@ public class ThePeripheral implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("The Peripheral: Production Horror System Activated.");
+        LOGGER.info("The Peripheral Mod Initialized Successfully!");
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             tickCounter++;
-            
-            // Har ~8 se 15 second me trigger hoga
+
+            // Har 8 se 15 second ke beech me sound trigger hoga
             if (tickCounter >= 160 + RANDOM.nextInt(140)) {
                 tickCounter = 0;
 
@@ -33,22 +33,17 @@ public class ThePeripheral implements ModInitializer {
                     BlockPos pos = player.getBlockPos();
                     int lightLevel = player.getWorld().getLightLevel(pos);
 
-                    // Agar light kam hai (Underground / Night)
+                    // Agar andhera ho (Light < 6)
                     if (lightLevel < 6) {
-                        // Player ke 2 blocks piche position calculate karo
                         BlockPos behindPos = pos.offset(player.getHorizontalFacing().getOpposite(), 2);
                         
-                        // Random Creepy Sound Selector
-                        float pitch = 0.3f + (RANDOM.nextFloat() * 0.3f); // Pitch low karke creepy aawaz
-                        var soundEvent = RANDOM.nextBoolean() ? SoundEvents.BLOCK_DEEPSLATE_STEP : SoundEvents.ENTITY_GHAST_SCREAM;
-
                         player.getWorld().playSound(
-                            null, 
-                            behindPos, 
-                            soundEvent, 
-                            SoundCategory.PLAYERS, 
-                            0.8f, 
-                            pitch
+                            null,
+                            behindPos,
+                            SoundEvents.ENTITY_GHAST_SCREAM,
+                            SoundCategory.PLAYERS,
+                            0.6f,
+                            0.3f // Pitch low karke creepy banaya gaya hai
                         );
                     }
                 });
