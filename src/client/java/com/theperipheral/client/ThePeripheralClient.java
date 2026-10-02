@@ -3,32 +3,36 @@ package com.theperipheral.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.Colors;
+
+import java.util.Random;
 
 public class ThePeripheralClient implements ClientModInitializer {
-    private int darknessTicks = 0;
+    private static final Random RANDOM = new Random();
+    private int blackoutTicks = 0;
 
     @Override
     public void onInitializeClient() {
-        // Overlay Render: Kabhi-kabhi screen par 0.1 second ka full black glitch laane ke liye
         HudRenderCallback.EVENT.register((drawContext, renderTickCounter) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.player == null || client.world == null) return;
 
-            // Light level threshold check
+            // Player agar spectating nahi kar raha
+            if (client.player.isCreative() || client.player.isSpectator()) return;
+
             int light = client.world.getLightLevel(client.player.getBlockPos());
-            
-            if (light < 4 && client.world.random.nextInt(500) == 1) {
-                darknessTicks = 3; // 3 ticks blackout
+
+            // Jab andhera ho (Light < 4), toh 0.5% chance hai short glitch blackout hone ka
+            if (light < 4 && RANDOM.nextInt(200) == 1) {
+                blackoutTicks = 4; // 4 ticks black screen
             }
 
-            if (darknessTicks > 0) {
-                darknessTicks--;
+            if (blackoutTicks > 0) {
+                blackoutTicks--;
                 int width = client.getWindow().getScaledWidth();
                 int height = client.getWindow().getScaledHeight();
-                // Screen ko pitch black kar do
-                drawContext.fill(0, 0, width, height, Colors.BLACK);
+
+                // 1.21.11 Compatible ARGB Pitch Black Color Fill (0xFF000000 = Fully Opaque Black)
+                drawContext.fill(0, 0, width, height, 0xFF000000);
             }
         });
     }
