@@ -1,15 +1,15 @@
 {
 	"schemaVersion": 1,
 	"id": "the-peripheral",
-	"version": "${version}",
+	"version": "1.0.0",
 	"name": "The Peripheral",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A psychological horror mod that stalks your every move.",
 	"authors": [
-		"Me!"
+		"TCL-Team"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/TCL-Team/The-Peripheral"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/the-peripheral/icon.png",
